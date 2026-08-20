@@ -251,11 +251,15 @@ def _fmt_dur(minutes: int) -> str:
     return f"{m} min"
 
 
-def _busy_intervals(citas: list, fecha: str) -> list:
-    """Intervalos [inicio, fin) ya ocupados ese día (pendientes o aceptadas)."""
+def _busy_intervals(citas: list, fecha: str, exclude_id: str = "") -> list:
+    """Intervalos [inicio, fin) que bloquean ese día. SOLO las citas ACEPTADAS
+    bloquean el horario; las pendientes no, para que no se llene la agenda
+    con solicitudes sin confirmar. Se puede excluir una cita por id."""
     out = []
     for c in citas:
-        if c["fecha"] == fecha and c["estado"] in ("pendiente", "aceptada"):
+        if c["id"] == exclude_id:
+            continue
+        if c["fecha"] == fecha and c["estado"] == "aceptada":
             start = _to_min(c["hora"])
             out.append((start, start + int(c.get("dur_min", DEFAULT_DUR))))
     return out
@@ -665,15 +669,23 @@ def admin_decision(payload: dict = Body(...), x_admin_password: str | None = Hea
         raise HTTPException(status_code=400, detail="Decisión inválida.")
 
     citas = _load()
-    target = None
-    for c in citas:
-        if c["id"] == appt_id:
-            c["estado"] = decision
-            c["respondido"] = _now_iso()
-            target = c
-            break
+    target = next((c for c in citas if c["id"] == appt_id), None)
     if target is None:
         raise HTTPException(status_code=404, detail="Cita no encontrada.")
+
+    # Al ACEPTAR: verificar que no choque con otra cita ya aceptada ese día.
+    if decision == "aceptada":
+        start = _to_min(target["hora"])
+        dur = int(target.get("dur_min", DEFAULT_DUR))
+        end = start + dur
+        busy = _busy_intervals(citas, target["fecha"], exclude_id=appt_id)
+        if any(start < b_end and end > b_start for b_start, b_end in busy):
+            raise HTTPException(
+                status_code=409,
+                detail="Ya tienes otra cita ACEPTADA a esa hora. Recházala o reagenda antes de aceptar esta.")
+
+    target["estado"] = decision
+    target["respondido"] = _now_iso()
     _save(citas)
 
     # Enlace para avisar al cliente por WhatsApp (un clic).

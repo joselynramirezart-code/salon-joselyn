@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Joselyn Ramirez — Nails · Art · Lashes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --rose:#d46a92; --rose-dk:#b23e73; --rose-lt:#f2c3d6; --blush:#fbe9f0;
+    --plum:#3d2530; --ink:#5a3644;
+    --cream:#fdf7f3; --cream-2:#f7eae2;
+    --gold:#c9a15f; --gold-lt:#e7d0a2;
+    --line:#efdccf; --line-2:#f3e6dc;
+    --ok:#3f8f5c; --no:#c0504d;
+    --grad:linear-gradient(135deg,#e0729a 0%,#b23e73 100%);
+    --grad-soft:linear-gradient(135deg,#f6cfde 0%,#e0729a 100%);
+    --grad-gold:linear-gradient(135deg,#efdcb1,#c9a15f);
+    --grad-text:linear-gradient(92deg,#b23e73 0%,#e0729a 52%,#c9a15f 100%);
+    --shadow:0 20px 55px rgba(120,40,70,.17);
+    --shadow-sm:0 10px 28px rgba(120,40,70,.10);
+    --radius:22px;
+    --sidebar:280px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{height:100%}
+  body{
+    font-family:'Poppins',system-ui,sans-serif;color:var(--plum);
+    -webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden;
+    background:
+      radial-gradient(820px 480px at 90% -8%, rgba(224,114,154,.16), transparent 60%),
+      radial-gradient(680px 430px at 2% 4%, rgba(201,161,95,.12), transparent 55%),
+      var(--cream);
+  }
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif}
+  .g{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  ::selection{background:var(--rose-lt);color:var(--plum)}
+
+  /* ---------------- Layout ---------------- */
+  .app{display:flex;min-height:100vh}
+
+  /* ------- Sidebar ------- */
+  .sidebar{
+    width:var(--sidebar);flex:0 0 var(--sidebar);
+    background:linear-gradient(180deg,#ffffff 0%,#fff8f4 100%);
+    border-right:1px solid var(--line);display:flex;flex-direction:column;
+    position:sticky;top:0;height:100vh;z-index:40;
+  }
+  .brand{padding:30px 22px 22px;text-align:center;position:relative}
+  .brand::after{content:"";position:absolute;left:26px;right:26px;bottom:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--line),transparent)}
+  .logo{
+    width:88px;height:88px;margin:0 auto 12px;position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .logo svg{position:absolute;inset:0;width:100%;height:100%}
+  .logo .mono{position:relative;font-family:'Cormorant Garamond',serif;font-weight:700;
+    font-size:34px;letter-spacing:1px;color:#fff;text-shadow:0 2px 6px rgba(120,30,70,.35)}
+  .brand .name{font-size:27px;font-weight:700;letter-spacing:.4px;line-height:1.05}
+  .brand .tag{font-size:11px;letter-spacing:4.5px;text-transform:uppercase;color:var(--rose-dk);margin-top:5px;font-weight:600}
+  .brand .tag b{color:var(--gold)}
+
+  .nav{padding:16px 14px;display:flex;flex-direction:column;gap:5px;flex:1;overflow:auto}
+  .nav-lbl{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#c0a596;padding:14px 12px 6px;font-weight:600}
+  .nav-item{
+    display:flex;align-items:center;gap:13px;padding:11px 13px;border-radius:15px;
+    font-size:14.5px;font-weight:500;color:var(--ink);transition:.2s;text-align:left;width:100%;position:relative;
+  }
+  .nav-item .ic{width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:19px;background:var(--cream-2);transition:.2s}
+  .nav-item:hover{background:#fff5ef;color:var(--plum)}
+  .nav-item:hover .ic{background:var(--blush)}
+  .nav-item.active{background:var(--grad);color:#fff;box-shadow:0 12px 26px rgba(178,62,115,.34)}
+  .nav-item.active .ic{background:rgba(255,255,255,.22)}
+  .nav-foot{padding:16px;border-top:1px solid var(--line)}
+  .wa-btn{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:12px;
+    background:#25D366;color:#fff;border-radius:14px;font-weight:600;font-size:13.5px;
+    box-shadow:0 10px 22px rgba(37,211,102,.32);transition:.18s;
+  }
+  .wa-btn:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(37,211,102,.42)}
+  .wa-btn svg{width:19px;height:19px;fill:#fff}
+  .hours{font-size:11px;color:#a58c80;text-align:center;margin-top:12px;line-height:1.6}
+  .hours b{color:var(--rose-dk);font-weight:600}
+
+  /* ------- Main ------- */
+  .main{flex:1;min-width:0}
+  .topbar{display:none}
+
+  /* ------- Hero: fondo del salón + letrero LED (centrado) ------- */
+  .hero{
+    position:relative;min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    padding:66px 24px;text-align:center;overflow:hidden;
+    background:
+      linear-gradient(rgba(58,26,44,.40), rgba(40,18,32,.55)),
+      url('/fondo.jpg') center/cover no-repeat,
+      #2a1622;
+  }
+  .hero::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 44%, transparent 40%, rgba(30,12,24,.55) 100%);pointer-events:none}
+  .hero .spark{position:absolute;border-radius:50%;background:#fff;opacity:.0;pointer-events:none;
+    box-shadow:0 0 8px 2px rgba(255,240,200,.8);animation:twinkle 5s infinite}
+  @keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:.9;transform:scale(1)}}
+  /* postes que sujetan el letrero */
+  .led-mount{position:relative;z-index:2}
+  .led-mount::before,.led-mount::after{content:"";position:absolute;top:-26px;width:4px;height:26px;
+    background:linear-gradient(#d9d2c4,#8a8478);border-radius:2px}
+  .led-mount::before{left:22%}
+  .led-mount::after{right:22%}
+  .led{
+    position:relative;z-index:2;max-width:720px;padding:34px 44px;border-radius:20px;
+    background:rgba(28,12,24,.46);
+    border:2px solid rgba(255,150,196,.6);
+    box-shadow:0 0 26px rgba(255,110,170,.55), inset 0 0 30px rgba(255,110,170,.22), 0 20px 50px rgba(0,0,0,.35);
+    backdrop-filter:blur(1.5px);
+  }
+  .led p{
+    font-family:'Great Vibes',cursive;font-size:clamp(32px,5.4vw,58px);line-height:1.12;color:#ffe8f2;
+    text-shadow:0 0 6px #ff9ec7,0 0 14px #ff6fae,0 0 26px #ff3d93,0 0 44px #ff2b86;
+    animation:flicker 5s infinite;
+  }
+  @keyframes flicker{0%,88%,100%{opacity:1}89%{opacity:.5}90%{opacity:1}94%{opacity:.72}95%{opacity:1}}
+  .hero .mini{position:relative;z-index:2;margin-top:16px;color:#eafff0;font-size:12px;letter-spacing:3.5px;text-transform:uppercase;opacity:.9;font-weight:500}
+
+  /* ------- Contenido ------- */
+  .content{max-width:1080px;margin:0 auto;padding:44px 24px 90px}
+  .section{display:none}
+  .section.show{display:block;animation:fadeUp .45s cubic-bezier(.2,.7,.3,1)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .kicker{display:inline-block;padding:6px 15px;border-radius:999px;font-size:10.5px;font-weight:600;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--rose-dk);
+    background:rgba(224,114,154,.1);border:1px solid rgba(224,114,154,.28)}
+  .sec-head{margin-bottom:8px}
+  .sec-head h2{font-size:clamp(34px,4.6vw,50px);font-weight:700;line-height:1.02;margin-top:14px;letter-spacing:-.01em}
+  .sec-head p{color:var(--ink);opacity:.82;max-width:640px;margin-top:10px;font-size:15px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:30px}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;
+    box-shadow:var(--shadow-sm);transition:.28s cubic-bezier(.2,.7,.3,1);cursor:pointer;position:relative;overflow:hidden;
+  }
+  .card::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:var(--grad);
+    transform:scaleX(0);transform-origin:left;transition:.32s}
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--rose-lt)}
+  .card:hover::before{transform:scaleX(1)}
+  .card .ci{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+    font-size:27px;background:var(--grad-soft);box-shadow:0 10px 22px rgba(224,114,154,.32)}
+  .card h3{font-size:23px;font-weight:600;margin:14px 0 6px;line-height:1.15}
+  .card p{font-size:13.5px;color:var(--ink);opacity:.78;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .dur-tag{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:11.5px;font-weight:600;color:var(--gold);
+    background:rgba(201,161,95,.1);border:1px solid rgba(201,161,95,.28);padding:3px 10px;border-radius:20px}
+  .card .more{margin-top:14px;display:inline-flex;align-items:center;gap:6px;color:var(--rose-dk);font-size:12px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;transition:.2s}
+  .card:hover .more{gap:10px}
+
+  /* ------- Modal ------- */
+  .overlay{position:fixed;inset:0;background:rgba(40,18,28,.52);backdrop-filter:blur(5px);
+    display:none;align-items:center;justify-content:center;z-index:100;padding:18px}
+  .overlay.show{display:flex;animation:ov .25s ease}
+  @keyframes ov{from{opacity:0}to{opacity:1}}
+  .modal{
+    background:var(--cream);border-radius:26px;max-width:570px;width:100%;max-height:92vh;overflow:auto;
+    box-shadow:0 40px 90px rgba(0,0,0,.4);position:relative;animation:pop .34s cubic-bezier(.2,.9,.3,1);
+    border:1px solid var(--line-2);
+  }
+  @keyframes pop{from{transform:scale(.93) translateY(10px);opacity:0}to{transform:none;opacity:1}}
+  .modal .top{padding:30px 30px 0;position:relative}
+  .modal .close{position:absolute;top:16px;right:18px;width:36px;height:36px;border-radius:50%;background:#fff;
+    box-shadow:var(--shadow-sm);font-size:17px;color:var(--plum);display:flex;align-items:center;justify-content:center;transition:.18s}
+  .modal .close:hover{transform:rotate(90deg);color:var(--rose-dk)}
+  .modal .big-ic{width:66px;height:66px;border-radius:20px;display:flex;align-items:center;justify-content:center;
+    font-size:34px;background:var(--grad-soft);box-shadow:0 12px 26px rgba(224,114,154,.34)}
+  .modal h3{font-size:31px;font-weight:700;margin:14px 0 6px;line-height:1.1}
+  .cat-pill{display:inline-block;background:var(--blush);color:var(--rose-dk);font-size:10.5px;font-weight:600;
+    letter-spacing:1.5px;text-transform:uppercase;padding:5px 13px;border-radius:20px;border:1px solid rgba(224,114,154,.25)}
+  .modal .body{padding:18px 30px 30px}
+  .modal .desc{color:var(--ink);opacity:.9;font-size:15px;margin:14px 0 20px;line-height:1.65}
+
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:7px;color:var(--plum)}
+  .field .req{color:var(--rose-dk)}
+  .field .hint{color:#a58c80;font-weight:400}
+  .field input,.field textarea,.field select{
+    width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:14px;
+    font-family:inherit;font-size:14.5px;color:var(--plum);background:#fff;transition:.16s;
+  }
+  .field input::placeholder,.field textarea::placeholder{color:#c2ab9e}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 4px rgba(224,114,154,.14)}
+  .field textarea{resize:vertical;min-height:76px}
+
+  .svc-picker{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:9px 13px;border:1.5px solid var(--line);border-radius:22px;
+    font-size:12.5px;background:#fff;transition:.16s;color:var(--ink)}
+  .chip:hover{border-color:var(--rose-lt)}
+  .chip.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(178,62,115,.3)}
+  .dur-info{margin-top:12px;padding:11px 14px;border-radius:13px;background:var(--blush);border:1px solid rgba(224,114,154,.28);
+    font-size:13px;color:var(--rose-dk);font-weight:600;display:flex;align-items:center;gap:8px}
+  .dur-info span{color:var(--ink);font-weight:400;opacity:.85}
+
+  .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:9px;margin-top:2px}
+  .slot{padding:12px 8px;border:1.5px solid var(--line);border-radius:14px;text-align:center;font-size:13.5px;font-weight:600;
+    background:#fff;transition:.16s;color:var(--plum)}
+  .slot small{display:block;font-size:10px;color:#a58c80;font-weight:400;margin-top:2px}
+  .slot:not(.taken):hover{border-color:var(--rose-lt)}
+  .slot.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(178,62,115,.3)}
+  .slot.on small{color:#ffe3ee}
+  .slot.taken{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+  .slot-note{font-size:12px;color:#a58c80;margin-top:8px;grid-column:1/-1}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;
+    background:var(--grad);color:#fff;border-radius:15px;font-weight:600;font-size:15px;
+    box-shadow:0 12px 28px rgba(178,62,115,.36);transition:.18s;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(178,62,115,.46)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:#fff;color:var(--rose-dk);border:1.5px solid var(--rose-lt);box-shadow:none}
+  .btn.ghost:hover{background:var(--blush);box-shadow:none}
+  .btn.wa{background:#25D366;box-shadow:0 12px 28px rgba(37,211,102,.4)}
+  .btn.sm{width:auto;padding:10px 18px;font-size:13px;border-radius:12px}
+  .btn-row{display:flex;gap:10px;margin-top:8px}
+
+  .msg{padding:13px 15px;border-radius:13px;font-size:13.5px;margin-top:14px;display:none;line-height:1.5}
+  .msg.show{display:block}
+  .msg.err{background:#fbe4e2;color:#a1332f;border:1px solid #f2b8b4}
+  .msg.ok{background:#e2f3e8;color:#256b41;border:1px solid #b6ddc4}
+
+  /* resultado */
+  .result{text-align:center;padding:12px 4px}
+  .result .emoji{font-size:60px;animation:pop .5s cubic-bezier(.2,.9,.3,1)}
+  .result h3{font-size:30px;margin:8px 0}
+  .code-box{display:inline-block;background:#fff;border:2px dashed var(--rose-lt);border-radius:14px;
+    padding:10px 24px;font-size:24px;font-weight:700;letter-spacing:4px;color:var(--rose-dk);margin:8px 0}
+
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:20px;font-size:11.5px;font-weight:600}
+  .badge.pendiente{background:#fdf0dc;color:#9a6b1e}
+  .badge.aceptada{background:#e2f3e8;color:#256b41}
+  .badge.rechazada{background:#fbe4e2;color:#a1332f}
+
+  .appt-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:16px;box-shadow:var(--shadow-sm)}
+  .appt-card .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+  .appt-card h4{font-size:21px;font-weight:600}
+  .appt-card .meta{font-size:13.5px;color:var(--ink);opacity:.9;margin-top:8px;line-height:1.85}
+  .appt-card .meta b{color:var(--plum);font-weight:600;opacity:1}
+  .appt-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+
+  .empty{text-align:center;color:#a58c80;padding:44px 10px;font-size:14px}
+  .center-narrow{max-width:480px;margin:0 auto}
+  .hero-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;
+    box-shadow:var(--shadow-sm);text-align:center;position:relative;overflow:hidden}
+  .hero-card::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:var(--grad)}
+  .hero-card .note{font-size:13px;color:var(--ink);opacity:.75;margin-top:14px}
+
+  /* ------- Pie de página ------- */
+  .site-foot{margin-top:60px;padding:36px 4px 10px;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .foot-brand{display:flex;align-items:center;gap:14px}
+  .foot-brand .logo{margin:0}
+  .foot-title{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--rose-dk);font-weight:600;margin-bottom:14px}
+  .foot-line{display:flex;align-items:center;gap:11px;padding:8px 0;font-size:14px;color:var(--ink);transition:.16s}
+  a.foot-line:hover{color:var(--rose-dk)}
+  .foot-line .fic{width:34px;height:34px;flex:0 0 34px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    font-size:16px;color:#fff;box-shadow:0 6px 14px rgba(120,40,70,.18)}
+  .foot-bottom{grid-column:1/-1;text-align:center;padding-top:22px;margin-top:8px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink);opacity:.7}
+  @media(max-width:620px){.site-foot{grid-template-columns:1fr;gap:24px}}
+
+  /* clientes (admin) */
+  .cli-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:14px 18px;margin-top:12px;box-shadow:var(--shadow-sm)}
+  body.night .cli-card{background:#241521}
+  .cli-count{width:52px;height:52px;flex:0 0 52px;border-radius:14px;background:var(--grad);color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;line-height:1}
+  .cli-count b{font-size:20px}
+  .cli-count small{font-size:8.5px;font-weight:500;opacity:.9;letter-spacing:.5px}
+  .cli-info h4{font-size:17px;font-weight:600}
+  .cli-info .m{font-size:12.5px;color:var(--ink);opacity:.82;margin-top:3px}
+
+  /* floating whatsapp */
+  .wa-float{position:fixed;right:20px;bottom:20px;z-index:80;width:60px;height:60px;border-radius:50%;
+    background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(37,211,102,.5);transition:.18s}
+  .wa-float:hover{transform:scale(1.08)}
+  .wa-float svg{width:33px;height:33px;fill:#fff}
+
+  /* ------- Botón Día / Noche ------- */
+  .side-top{padding:14px 14px 0;display:flex;justify-content:center}
+  .theme-toggle{display:inline-flex;background:var(--cream-2);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+  .theme-toggle button{padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;color:var(--ink);transition:.18s;display:flex;align-items:center;gap:5px;white-space:nowrap}
+  .theme-toggle button.on{background:var(--grad);color:#fff;box-shadow:0 6px 14px rgba(178,62,115,.32)}
+  .theme-toggle.sm button{padding:6px 10px;font-size:11px}
+
+  /* ------- Tema NOCHE ------- */
+  body.night{
+    --rose:#eb93b0; --rose-dk:#ef88a8; --rose-lt:#8a3b58; --blush:#3a2130;
+    --plum:#f7ebf1; --ink:#d9c3ce;
+    --cream:#1a1017; --cream-2:#281a24;
+    --gold:#e8c47f; --gold-lt:#c9a15f;
+    --line:#3b2836; --line-2:#34222f;
+    --shadow:0 22px 55px rgba(0,0,0,.55); --shadow-sm:0 12px 30px rgba(0,0,0,.45);
+    background:
+      radial-gradient(820px 480px at 90% -8%, rgba(224,114,154,.14), transparent 60%),
+      radial-gradient(680px 430px at 2% 4%, rgba(201,161,95,.10), transparent 55%),
+      var(--cream);
+  }
+  body.night .sidebar{background:linear-gradient(180deg,#20141d 0%,#1a1017 100%)}
+  body.night .nav-item:hover{background:#2a1a25}
+  body.night .nav-item:hover .ic{background:#33202d}
+  body.night .card,
+  body.night .hero-card,
+  body.night .appt-card,
+  body.night .field input,
+  body.night .field textarea,
+  body.night .field select,
+  body.night .chip,
+  body.night .slot,
+  body.night .modal .close,
+  body.night .code-box,
+  body.night .btn.ghost{background:#241521}
+  body.night .btn.ghost:hover{background:#301e2a}
+  body.night .topbar{background:rgba(26,16,23,.86)}
+  body.night .field input::placeholder,
+  body.night .field textarea::placeholder{color:#8a7280}
+  body.night .hero{
+    background:
+      linear-gradient(rgba(12,5,10,.60), rgba(8,4,8,.80)),
+      url('/fondo.jpg') center/cover no-repeat,
+      #140a11;
+  }
+
+  /* mobile */
+  .menu-toggle{display:none}
+  .scrim{display:none}
+  @media(max-width:880px){
+    .app{flex-direction:column}
+    .sidebar{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);transition:.28s cubic-bezier(.3,.8,.3,1);box-shadow:0 0 70px rgba(0,0,0,.35)}
+    .sidebar.open{transform:none}
+    .topbar{display:flex;align-items:center;gap:13px;padding:13px 18px;
+      background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+    .menu-toggle{display:flex;font-size:23px;color:var(--rose-dk)}
+    .topbar .tb-logo{width:38px;height:38px;position:relative;display:flex;align-items:center;justify-content:center}
+    .topbar .tb-logo svg{position:absolute;inset:0;width:100%;height:100%}
+    .topbar .tb-logo span{position:relative;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px}
+    .topbar .tb-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;line-height:1}
+    .topbar .tb-tag{font-size:8.5px;letter-spacing:2.5px;color:var(--rose-dk);text-transform:uppercase;font-weight:600}
+    .scrim.show{display:block;position:fixed;inset:0;background:rgba(30,10,20,.45);z-index:35;animation:ov .2s ease}
+    .hero{min-height:280px;padding:44px 20px}
+  }
+</style>
+</head>
+<body>
+<!-- Definición del degradado del logo (reutilizable) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="jrGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e58fb0"/><stop offset=".55" stop-color="#d4548a"/><stop offset="1" stop-color="#b23e73"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-top">
+      <div class="theme-toggle">
+        <button data-theme="day" class="on">☀️ Día</button>
+        <button data-theme="night">🌙 Noche</button>
+      </div>
+    </div>
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="47" fill="url(#jrGrad)"/>
+          <circle cx="50" cy="50" r="47" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>
+          <circle cx="36" cy="30" r="13" fill="#fff" fill-opacity=".16"/>
+          <path d="M50 12 l2.2 5.2 5.6.5-4.2 3.8 1.3 5.5L50 24.6l-5 2.7 1.3-5.5-4.2-3.8 5.6-.5z" fill="#fff" fill-opacity=".85"/>
+        </svg>
+        <span class="mono">JR</span>
+      </div>
+      <div class="name">Joselyn Ramirez</div>
+      <div class="tag">Nails <b>·</b> Art <b>·</b> Lashes</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-lbl">Servicios</div>
+      <button class="nav-item active" data-sec="unas"><span class="ic">💅</span> Uñas</button>
+      <button class="nav-item" data-sec="cejas"><span class="ic">🪶</span> Cejas</button>
+      <button class="nav-item" data-sec="pestanas"><span class="ic">👁️</span> Pestañas</button>
+      <div class="nav-lbl">Citas</div>
+      <button class="nav-item" data-sec="citas"><span class="ic">🗓️</span> Agendar cita</button>
+      <button class="nav-item" data-sec="registro"><span class="ic">🧾</span> Registrarme</button>
+      <button class="nav-item" data-sec="estado"><span class="ic">🔎</span> Ver estado</button>
+      <div class="nav-lbl">Privado</div>
+      <button class="nav-item" data-sec="admin"><span class="ic">🔐</span> Administración</button>
+    </nav>
+    <div class="nav-foot">
+      <a class="wa-btn" id="waFoot" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.5 5.8L4 29l8.4-1.5C14 28.5 15 28.8 16 28.8 22.6 28.8 28 23.4 28 16.8S22.6 3 16 3zm5.3 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5s-.6-1.6-.9-2.1c-.2-.6-.5-.5-.6-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.4 1 2.8 1.2 3 2 3.1 4.9 4.4c.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+        Escríbeme por WhatsApp
+      </a>
+      <div class="hours"><b>Lunes a viernes · 08:00 a 17:00</b><br/>Cada cita dura 2 horas</div>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <div class="tb-logo">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="url(#jrGrad)"/></svg>
+        <span>JR</span>
+      </div>
+      <div>
+        <div class="tb-name">Joselyn Ramirez</div>
+        <div class="tb-tag">Nails · Art · Lashes</div>
+      </div>
+      <div class="theme-toggle sm" style="margin-left:auto">
+        <button data-theme="day" class="on">☀️</button>
+        <button data-theme="night">🌙</button>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero" id="hero">
+      <div class="led-mount">
+        <div class="led"><p>No subestimes el poder de unas uñas bonitas</p></div>
+      </div>
+      <div class="mini">Belleza para tus manos, pies, cejas y mirada</div>
+    </div>
+
+    <div class="content">
+
+      <!-- ---- UÑAS ---- -->
+      <section class="section show" id="sec-unas">
+        <div class="sec-head">
+          <span class="kicker">Servicios</span>
+          <h2 class="g">Uñas</h2>
+          <p>Manos y pies impecables con esmaltes profesionales y diseños a tu medida. Toca un servicio para conocerlo y agendar tu cita.</p>
+        </div>
+        <div class="grid" id="grid-unas"></div>
+      </section>
+
+      <!-- ---- CEJAS ---- -->
+      <section class="section" id="sec-cejas">
+        <div class="sec-head">
+          <span class="kicker">Servicios</span>
+          <h2 class="g">Cejas</h2>
+          <p>Diseño, depilación y color para realzar tu mirada con la forma perfecta para tu rostro.</p>
+        </div>
+        <div class="grid" id="grid-cejas"></div>
+      </section>
+
+      <!-- ---- PESTAÑAS ---- -->
+      <section class="section" id="sec-pestanas">
+        <div class="sec-head">
+          <span class="kicker">Servicios</span>
+          <h2 class="g">Pestañas</h2>
+          <p>Lifting, extensiones y tinte para una mirada abierta y espectacular que dura semanas.</p>
+        </div>
+        <div class="grid" id="grid-pestanas"></div>
+      </section>
+
+      <!-- ---- AGENDAR CITA ---- -->
+      <section class="section" id="sec-citas">
+        <div class="sec-head" style="text-align:center">
+          <span class="kicker">Reserva</span>
+          <h2 class="g">Agenda tu cita</h2>
+          <p style="margin-left:auto;margin-right:auto">Completa tus datos, elige tus servicios y escoge un día y hora libre. Tu solicitud me llega al instante y te aviso cuando la confirme.</p>
+        </div>
+        <div class="center-narrow" style="margin-top:26px">
+          <div class="hero-card">
+            <div class="big-ic" style="margin:0 auto 14px">🗓️</div>
+            <button class="btn" id="openBookingBtn">Solicitar una cita</button>
+            <p class="note">Atención de lunes a viernes, 08:00 a 17:00 · Cada cita dura 2 horas.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- REGISTRARME ---- -->
+      <section class="section" id="sec-registro">
+        <div class="sec-head">
+          <span class="kicker">Clientas</span>
+          <h2 class="g">Regístrate</h2>
+          <p>Regístrate para llevar tu historial y que Joselyn tenga tus datos. Así se cuenta cuántas veces has venido. 💕</p>
+        </div>
+        <div class="center-narrow" style="margin-top:26px">
+          <div class="hero-card" style="text-align:left">
+            <div class="field">
+              <label>Nombre y apellido <span class="req">*</span></label>
+              <input id="rgNombre" placeholder="Ej: María Pérez" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label>Número de teléfono <span class="req">*</span></label>
+              <input id="rgTel" placeholder="Ej: 0991234567" inputmode="tel" autocomplete="tel" />
+            </div>
+            <div class="field">
+              <label>Correo <span class="hint">(opcional)</span></label>
+              <input id="rgEmail" type="email" placeholder="tucorreo@gmail.com" autocomplete="email" />
+            </div>
+            <button class="btn" id="rgBtn">🧾 Registrarme</button>
+            <div class="msg err" id="rgMsg"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- VER ESTADO ---- -->
+      <section class="section" id="sec-estado">
+        <div class="sec-head">
+          <span class="kicker">Seguimiento</span>
+          <h2 class="g">Ver estado de tu solicitud</h2>
+          <p>Consulta con el código que recibiste al agendar, o con tu número de teléfono.</p>
+        </div>
+        <div class="center-narrow" style="margin-top:26px">
+          <div class="field">
+            <label>Código de solicitud <span class="hint">(o déjalo vacío y usa tu teléfono)</span></label>
+            <input id="stCode" placeholder="Ej: A1B2C3" maxlength="6" style="text-transform:uppercase" />
+          </div>
+          <div class="field">
+            <label>Teléfono</label>
+            <input id="stPhone" placeholder="Tu número de teléfono" inputmode="tel" />
+          </div>
+          <button class="btn" id="stBtn">🔎 Consultar estado</button>
+          <div class="msg err" id="stMsg"></div>
+          <div id="stResults"></div>
+        </div>
+      </section>
+
+      <!-- ---- ADMIN ---- -->
+      <section class="section" id="sec-admin">
+        <div class="sec-head">
+          <span class="kicker">Solo Joselyn</span>
+          <h2 class="g">Administración</h2>
+          <p>Aquí ves todas las solicitudes de cita y las aceptas o rechazas. Al decidir, puedes avisar al cliente por WhatsApp con un clic.</p>
+        </div>
+
+        <div id="adminLogin" class="center-narrow" style="margin-top:26px">
+          <div class="hero-card" style="text-align:left">
+            <div class="field">
+              <label>Correo <span class="req">*</span></label>
+              <input id="admEmail" type="email" placeholder="tu correo principal" autocomplete="email" />
+            </div>
+            <div class="field" style="margin-bottom:14px">
+              <label>Contraseña <span class="req">*</span></label>
+              <input id="admPass" type="password" placeholder="Tu contraseña" />
+            </div>
+            <button class="btn" id="admLoginBtn">🔓 Entrar al panel</button>
+            <div class="msg err" id="admMsg"></div>
+          </div>
+        </div>
+
+        <div id="adminPanel" style="display:none">
+          <div class="btn-row" style="margin-top:20px;flex-wrap:wrap">
+            <button class="btn sm" id="tabSolic">📋 Solicitudes</button>
+            <button class="btn ghost sm" id="tabClientes">👥 Clientes</button>
+            <button class="btn ghost sm" id="admRefresh">↻ Actualizar</button>
+            <button class="btn ghost sm" id="admLogout">Salir</button>
+          </div>
+          <div id="admList"></div>
+          <div id="admClientes" style="display:none"></div>
+        </div>
+      </section>
+
+      <!-- ---- PIE DE PÁGINA: CONTACTO ---- -->
+      <footer class="site-foot">
+        <div class="foot-brand">
+          <div class="logo" style="width:60px;height:60px">
+            <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="url(#jrGrad)"/></svg>
+            <span class="mono" style="font-size:24px">JR</span>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:700">Joselyn Ramirez</div>
+            <div style="font-size:10.5px;letter-spacing:3px;text-transform:uppercase;color:var(--rose-dk);font-weight:600">Nails · Art · Lashes</div>
+          </div>
+        </div>
+        <div class="foot-contact">
+          <div class="foot-title">Contáctame</div>
+          <a class="foot-line" id="footWa" href="#" target="_blank" rel="noopener">
+            <span class="fic" style="background:#25D366">
+              <svg viewBox="0 0 32 32" width="16" height="16" fill="#fff"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.5 5.8L4 29l8.4-1.5C14 28.5 15 28.8 16 28.8 22.6 28.8 28 23.4 28 16.8S22.6 3 16 3zm5.3 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5s-.6-1.6-.9-2.1c-.2-.6-.5-.5-.6-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.4 1 2.8 1.2 3 2 3.1 4.9 4.4c.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+            </span>
+            <span id="footWaText">WhatsApp</span>
+          </a>
+          <a class="foot-line" id="footMail" href="#">
+            <span class="fic" style="background:var(--grad)">✉️</span>
+            <span id="footMailText">correo</span>
+          </a>
+          <div class="foot-line" style="cursor:default">
+            <span class="fic" style="background:var(--gold)">🕒</span>
+            <span>Lunes a viernes · 08:00 a 17:00</span>
+          </div>
+        </div>
+        <div class="foot-bottom">© <span id="footYear"></span> Joselyn Ramirez · Nails · Art · Lashes — Hecho con 💕</div>
+      </footer>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: detalle de servicio ============ -->
+<div class="overlay" id="svcOverlay">
+  <div class="modal">
+    <div class="top">
+      <button class="close" data-close>✕</button>
+      <div class="big-ic" id="svcIcon">💅</div>
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><span class="cat-pill" id="svcCat">Uñas</span><span class="cat-pill" id="svcDur" style="background:rgba(201,161,95,.12);color:var(--gold);border-color:rgba(201,161,95,.3)"></span></div>
+      <h3 id="svcName">Servicio</h3>
+    </div>
+    <div class="body">
+      <p class="desc" id="svcDesc"></p>
+      <button class="btn" id="svcBookBtn">🗓️ Solicitar cita para este servicio</button>
+      <p style="font-size:12.5px;color:#a58c80;text-align:center;margin-top:12px">
+        Verás los días y horas disponibles al agendar.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL: agendar cita ============ -->
+<div class="overlay" id="bookOverlay">
+  <div class="modal">
+    <div class="top">
+      <button class="close" data-close>✕</button>
+      <div class="big-ic">🗓️</div>
+      <h3>Agenda tu cita</h3>
+      <p style="font-size:13px;color:#a58c80;margin-top:2px">Los campos con <span class="req">*</span> son obligatorios.</p>
+    </div>
+    <div class="body" id="bookBody">
+      <div class="field">
+        <label>Nombre y apellido <span class="req">*</span></label>
+        <input id="bkNombre" placeholder="Ej: María Pérez" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label>Número de teléfono <span class="req">*</span></label>
+        <input id="bkTel" placeholder="Ej: 0991234567" inputmode="tel" autocomplete="tel" />
+      </div>
+      <div class="field">
+        <label>¿Qué te quieres hacer? Descríbelo <span class="req">*</span></label>
+        <textarea id="bkDesc" placeholder="Ej: Uñas acrílicas largas con diseño francés y decoración en dos dedos."></textarea>
+      </div>
+      <div class="field">
+        <label>Servicios <span class="req">*</span> <span class="hint">(puedes elegir varios — se suma el tiempo)</span></label>
+        <div class="svc-picker" id="bkServices"></div>
+        <div class="dur-info" id="bkDurInfo" style="display:none"></div>
+      </div>
+      <div class="field">
+        <label>Día <span class="req">*</span> <span class="hint">(lunes a viernes)</span></label>
+        <input id="bkFecha" type="date" />
+      </div>
+      <div class="field">
+        <label>Hora disponible <span class="req">*</span></label>
+        <div class="slots" id="bkSlots"><div class="slot-note">Elige primero un día.</div></div>
+        <div class="slot-note" id="bkSlotNote"></div>
+      </div>
+      <button class="btn" id="bkSubmit">✅ Enviar solicitud de cita</button>
+      <div class="msg err" id="bkMsg"></div>
+    </div>
+    <div class="body" id="bookDone" style="display:none">
+      <div class="result">
+        <div class="emoji">🎉</div>
+        <h3>¡Solicitud enviada!</h3>
+        <p style="color:var(--ink);margin:6px 0">Guarda tu código para consultar el estado:</p>
+        <div class="code-box" id="doneCode">------</div>
+        <p style="color:var(--ink);font-size:14px;margin:10px 0 4px" id="doneResumen"></p>
+        <div class="msg ok show" id="doneWa" style="text-align:left"></div>
+        <a class="btn wa" id="doneWaLink" href="#" target="_blank" rel="noopener" style="margin-top:12px">🟢 Enviar mi cita por WhatsApp</a>
+        <button class="btn ghost" id="doneClose" style="margin-top:10px">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp flotante -->
+<a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp" title="Escríbeme por WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.003 3C9.383 3 4 8.383 4 15c0 2.113.553 4.093 1.52 5.813L4 29l8.4-1.48A11.9 11.9 0 0016.003 27C22.62 27 28 21.62 28 15S22.62 3 16.003 3zm0 21.6c-1.86 0-3.6-.5-5.09-1.37l-.365-.216-3.71.65.67-3.62-.238-.373A9.53 9.53 0 016.4 15c0-5.3 4.31-9.6 9.603-9.6 5.29 0 9.597 4.3 9.597 9.6s-4.307 9.6-9.597 9.6zm5.29-7.18c-.29-.145-1.71-.845-1.976-.94-.265-.097-.458-.145-.65.146-.193.29-.746.94-.915 1.134-.168.193-.337.217-.627.072-.29-.145-1.223-.45-2.33-1.437-.86-.767-1.44-1.714-1.61-2.004-.168-.29-.018-.447.127-.59.13-.13.29-.338.435-.507.145-.17.193-.29.29-.483.097-.193.048-.362-.024-.507-.072-.145-.65-1.566-.89-2.146-.234-.563-.472-.487-.65-.496l-.554-.01c-.193 0-.507.072-.772.362s-1.013.99-1.013 2.41c0 1.42 1.037 2.795 1.182 2.988.145.193 2.04 3.115 4.943 4.37.69.298 1.23.476 1.65.61.693.22 1.323.19 1.822.115.556-.083 1.71-.698 1.95-1.372.24-.674.24-1.252.168-1.372-.07-.12-.263-.193-.552-.338z"/></svg>
+</a>
+
+<script>
+const API = "";
+let SERVICES = [];
+let CONFIG = {owner_whatsapp:"593969521836"};
+let selectedServices = new Set();
+let selectedSlot = null;
+let preselectService = null;
+let ADMIN_PASS = "";
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* ---------- carga inicial ---------- */
+async function boot(){
+  try{
+    const [cfg, svc] = await Promise.all([
+      fetch(API+"/api/config").then(r=>r.json()),
+      fetch(API+"/api/services").then(r=>r.json()),
+    ]);
+    CONFIG = cfg; SERVICES = svc.services;
+  }catch(e){ SERVICES = []; }
+  renderCatalog();
+  const num = CONFIG.owner_whatsapp||"593969521836";
+  const wa = "https://wa.me/"+num;
+  $("#waFoot").href = wa; $("#waFloat").href = wa;
+  // pie de página / contacto
+  $("#footWa").href = wa;
+  $("#footWaText").textContent = "WhatsApp: +"+num;
+  const email = CONFIG.owner_email || "";
+  if(email){ $("#footMail").href = "mailto:"+email; $("#footMailText").textContent = email; }
+  else { $("#footMail").style.display="none"; }
+  $("#footYear").textContent = new Date().getFullYear();
+}
+function svcByCat(cat){ return SERVICES.filter(s=>s.cat===cat); }
+
+function cardHTML(s){
+  return `<div class="card" data-svc="${s.id}">
+    <div class="ci">${s.icon}</div>
+    <h3>${s.nombre}</h3>
+    <p>${s.desc}</p>
+    <div class="dur-tag">⏱️ ${fmtDur(s.dur||0)}</div>
+    <div class="more">Ver detalle · Agendar →</div>
+  </div>`;
+}
+function renderCatalog(){
+  $("#grid-unas").innerHTML = svcByCat("Uñas").map(cardHTML).join("");
+  $("#grid-cejas").innerHTML = svcByCat("Cejas").map(cardHTML).join("");
+  $("#grid-pestanas").innerHTML = svcByCat("Pestañas").map(cardHTML).join("");
+  $$(".card").forEach(c=>c.addEventListener("click",()=>openService(c.dataset.svc)));
+}
+
+/* ---------- navegación ---------- */
+function showSection(sec){
+  $$(".section").forEach(s=>s.classList.remove("show"));
+  $("#sec-"+sec).classList.add("show");
+  $$(".nav-item").forEach(n=>n.classList.toggle("active", n.dataset.sec===sec));
+  closeSidebar();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$$(".nav-item").forEach(n=>n.addEventListener("click",()=>showSection(n.dataset.sec)));
+
+/* sidebar móvil */
+function openSidebar(){ $("#sidebar").classList.add("open"); $("#scrim").classList.add("show"); }
+function closeSidebar(){ $("#sidebar").classList.remove("open"); $("#scrim").classList.remove("show"); }
+$("#menuToggle").addEventListener("click",openSidebar);
+$("#scrim").addEventListener("click",closeSidebar);
+
+/* ---------- modal servicio ---------- */
+function openService(id){
+  const s = SERVICES.find(x=>x.id===id); if(!s) return;
+  preselectService = id;
+  $("#svcIcon").textContent = s.icon;
+  $("#svcCat").textContent = s.cat;
+  $("#svcDur").textContent = "⏱️ " + fmtDur(s.dur||0);
+  $("#svcName").textContent = s.nombre;
+  $("#svcDesc").textContent = s.desc;
+  $("#svcOverlay").classList.add("show");
+}
+$("#svcBookBtn").addEventListener("click",()=>{ closeOverlay($("#svcOverlay")); openBooking(preselectService); });
+
+/* ---------- modal agendar ---------- */
+function openBooking(presel){
+  selectedServices = new Set();
+  selectedSlot = null;
+  $("#bkNombre").value=""; $("#bkTel").value=""; $("#bkDesc").value=""; $("#bkFecha").value="";
+  $("#bkSlots").innerHTML = '<div class="slot-note">Elige primero un día.</div>';
+  $("#bkSlotNote").textContent = "";
+  $("#bkMsg").classList.remove("show");
+  $("#bookBody").style.display=""; $("#bookDone").style.display="none";
+
+  const today = new Date(); const max = new Date(); max.setDate(max.getDate()+60);
+  $("#bkFecha").min = today.toISOString().slice(0,10);
+  $("#bkFecha").max = max.toISOString().slice(0,10);
+
+  $("#bkServices").innerHTML = SERVICES.map(s=>
+    `<button type="button" class="chip" data-id="${s.id}">${s.icon} ${s.nombre}</button>`).join("");
+  $$("#bkServices .chip").forEach(c=>c.addEventListener("click",()=>{
+    const id=c.dataset.id;
+    if(selectedServices.has(id)){selectedServices.delete(id);c.classList.remove("on");}
+    else{selectedServices.add(id);c.classList.add("on");}
+    updateDurInfo(); loadSlots();
+  }));
+  if(presel){
+    selectedServices.add(presel);
+    const chip = $(`#bkServices .chip[data-id="${presel}"]`);
+    if(chip) chip.classList.add("on");
+  }
+  $("#bkDurInfo").style.display="none";
+  updateDurInfo();
+  $("#bookOverlay").classList.add("show");
+}
+$("#openBookingBtn").addEventListener("click",()=>openBooking(null));
+
+/* ---- tiempo total según servicios elegidos ---- */
+function svcDur(id){ const s=SERVICES.find(x=>x.id===id); return s?(s.dur||0):0; }
+function totalDur(){ return Array.from(selectedServices).reduce((a,id)=>a+svcDur(id),0); }
+function fmtDur(min){ const h=Math.floor(min/60), m=min%60;
+  return h&&m ? `${h} h ${m} min` : h ? `${h} h` : `${m} min`; }
+function updateDurInfo(){
+  const info=$("#bkDurInfo"); const n=selectedServices.size; const d=totalDur();
+  if(n===0){ info.style.display="none"; return; }
+  info.style.display="flex";
+  info.innerHTML = `⏱️ Tiempo total: ${fmtDur(d)} <span>· ${n} servicio${n>1?'s':''} — tu cita ocupará ese tiempo seguido</span>`;
+}
+
+/* ---- carga de horarios disponibles según el día y la duración ---- */
+async function loadSlots(){
+  selectedSlot=null;
+  const date=$("#bkFecha").value; const box=$("#bkSlots"); const note=$("#bkSlotNote");
+  note.textContent="";
+  if(selectedServices.size===0){ box.innerHTML='<div class="slot-note">Elige primero tus servicios.</div>'; return; }
+  if(!date){ box.innerHTML='<div class="slot-note">Ahora elige un día.</div>'; return; }
+  const d=totalDur();
+  box.innerHTML='<div class="slot-note">Cargando horarios…</div>';
+  try{
+    const r=await fetch(`${API}/api/availability?date=${date}&dur=${d}`).then(r=>r.json());
+    if(!r.abierto){ box.innerHTML=`<div class="slot-note">${r.motivo||"Ese día no atendemos."}</div>`; return; }
+    if(!r.slots.length){ box.innerHTML=`<div class="slot-note">${r.motivo||"No quedan horarios libres ese día para esa duración. Prueba otro día."}</div>`; return; }
+    box.innerHTML = r.slots.map(s=>
+      `<button type="button" class="slot" data-hora="${s.hora}">${s.hora}<small>termina ${s.fin}</small></button>`).join("");
+    $$("#bkSlots .slot").forEach(sl=>sl.addEventListener("click",()=>{
+      $$("#bkSlots .slot").forEach(x=>x.classList.remove("on"));
+      sl.classList.add("on"); selectedSlot=sl.dataset.hora;
+    }));
+    note.textContent = `Cada horario reserva ${fmtDur(d)} seguidos.`;
+  }catch(e){ box.innerHTML='<div class="slot-note">No se pudo cargar. Intenta de nuevo.</div>'; }
+}
+$("#bkFecha").addEventListener("change", loadSlots);
+
+$("#bkSubmit").addEventListener("click", async ()=>{
+  const msg=$("#bkMsg"); msg.classList.remove("show");
+  const payload = {
+    nombre:$("#bkNombre").value.trim(),
+    telefono:$("#bkTel").value.trim(),
+    descripcion:$("#bkDesc").value.trim(),
+    servicios:Array.from(selectedServices),
+    fecha:$("#bkFecha").value,
+    hora:selectedSlot,
+  };
+  if(payload.nombre.split(" ").filter(Boolean).length<2){ return showErr(msg,"Escribe tu nombre y apellido."); }
+  if(payload.telefono.replace(/\D/g,"").length<7){ return showErr(msg,"Escribe un teléfono válido."); }
+  if(payload.descripcion.length<4){ return showErr(msg,"Cuéntame qué quieres hacerte."); }
+  if(payload.servicios.length===0){ return showErr(msg,"Elige al menos un servicio."); }
+  if(!payload.fecha){ return showErr(msg,"Elige un día."); }
+  if(!payload.hora){ return showErr(msg,"Elige una hora disponible."); }
+
+  const btn=$("#bkSubmit"); btn.disabled=true; btn.textContent="Enviando…";
+  try{
+    const r = await fetch(API+"/api/appointments",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    const data = await r.json();
+    if(!r.ok){ throw new Error(data.detail||"No se pudo agendar."); }
+    $("#bookBody").style.display="none"; $("#bookDone").style.display="";
+    $("#doneCode").textContent = data.code;
+    const c=data.cita;
+    $("#doneResumen").innerHTML = `<b>${c.fecha}</b> de <b>${c.hora}</b> a <b>${c.fin}</b> (${c.dur_txt||''})<br/>${c.servicios.join(", ")}`;
+    $("#doneWaLink").href = data.wa_owner_link;
+    $("#doneWa").innerHTML = data.whatsapp_enviado
+      ? "✅ Tu cita ya llegó al WhatsApp de Joselyn. Te avisará cuando la confirme."
+      : "Tu solicitud quedó registrada. Toca el botón para enviarla también por WhatsApp (opcional).";
+    $("#doneWa").className = "msg show " + (data.whatsapp_enviado?"ok":"");
+  }catch(e){ showErr(msg,e.message); }
+  finally{ btn.disabled=false; btn.textContent="✅ Enviar solicitud de cita"; }
+});
+$("#doneClose").addEventListener("click",()=>{ closeOverlay($("#bookOverlay")); showSection("estado"); });
+
+/* ---------- consultar estado ---------- */
+$("#stBtn").addEventListener("click", async ()=>{
+  const msg=$("#stMsg"); msg.classList.remove("show");
+  const code=$("#stCode").value.trim(); const phone=$("#stPhone").value.trim();
+  const out=$("#stResults"); out.innerHTML="";
+  if(!code && !phone){ return showErr(msg,"Escribe tu código o tu teléfono."); }
+  try{
+    const q = new URLSearchParams(); if(code)q.set("code",code); if(phone)q.set("phone",phone);
+    const r = await fetch(API+"/api/status?"+q.toString());
+    const data = await r.json();
+    if(!r.ok){ throw new Error(data.detail||"No encontrado."); }
+    out.innerHTML = data.citas.map(apptCardHTML).join("");
+  }catch(e){ showErr(msg,e.message); }
+});
+
+function estadoTxt(e){ return {pendiente:"⏳ Pendiente de confirmación",aceptada:"✅ Aceptada",rechazada:"❌ No confirmada"}[e]||e; }
+function apptCardHTML(c){
+  return `<div class="appt-card">
+    <div class="row">
+      <div><h4>${c.nombre}</h4><div class="meta">
+        <b>${c.fecha}</b> · ${c.hora} a ${c.fin} <span style="color:var(--gold)">(${c.dur_txt||''})</span><br/>
+        <b>Servicios:</b> ${c.servicios.join(", ")}<br/>
+        <b>Descripción:</b> ${c.descripcion}<br/>
+        <b>Código:</b> ${c.code}
+      </div></div>
+      <span class="badge ${c.estado}">${estadoTxt(c.estado)}</span>
+    </div>
+  </div>`;
+}
+
+/* ---------- registro de cliente ---------- */
+$("#rgBtn").addEventListener("click", async ()=>{
+  const msg=$("#rgMsg"); msg.classList.remove("show");
+  const nombre=$("#rgNombre").value.trim(), telefono=$("#rgTel").value.trim(), email=$("#rgEmail").value.trim();
+  if(nombre.split(" ").filter(Boolean).length<2) return showErr(msg,"Escribe tu nombre y apellido.");
+  if(telefono.replace(/\D/g,"").length<7) return showErr(msg,"Escribe un teléfono válido.");
+  const btn=$("#rgBtn"); btn.disabled=true; btn.textContent="Registrando…";
+  try{
+    const r=await fetch(API+"/api/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nombre,telefono,email})});
+    const d=await r.json();
+    if(!r.ok) throw new Error(d.detail||"No se pudo registrar.");
+    msg.className="msg ok show";
+    msg.innerHTML = `✅ ¡Registro exitoso, ${d.cliente.nombre.split(" ")[0]}! Ya puedes agendar tus citas.`;
+    $("#rgNombre").value=""; $("#rgTel").value=""; $("#rgEmail").value="";
+  }catch(e){ showErr(msg,e.message); }
+  finally{ btn.disabled=false; btn.textContent="🧾 Registrarme"; }
+});
+
+/* ---------- admin ---------- */
+$("#admLoginBtn").addEventListener("click", async ()=>{
+  const msg=$("#admMsg"); msg.classList.remove("show");
+  const email=$("#admEmail").value.trim(); const pass=$("#admPass").value.trim();
+  if(!email) return showErr(msg,"Escribe tu correo.");
+  if(!pass) return showErr(msg,"Escribe la contraseña.");
+  try{
+    const r=await fetch(API+"/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password:pass})});
+    if(!r.ok){ const d=await r.json(); throw new Error(d.detail||"Correo o contraseña incorrectos."); }
+    ADMIN_PASS=pass;
+    $("#adminLogin").style.display="none"; $("#adminPanel").style.display="";
+    showAdminTab("solic");
+  }catch(e){ showErr(msg,e.message); }
+});
+$("#admLogout").addEventListener("click",()=>{ ADMIN_PASS=""; $("#adminPanel").style.display="none"; $("#adminLogin").style.display=""; $("#admPass").value=""; });
+
+/* pestañas del panel */
+function showAdminTab(tab){
+  const solic=tab==="solic";
+  $("#tabSolic").className = "btn sm"+(solic?"":" ghost");
+  $("#tabClientes").className = "btn sm"+(solic?" ghost":"");
+  $("#admList").style.display = solic?"":"none";
+  $("#admClientes").style.display = solic?"none":"";
+  if(solic) loadAdmin(); else loadClientes();
+}
+$("#tabSolic").addEventListener("click",()=>showAdminTab("solic"));
+$("#tabClientes").addEventListener("click",()=>showAdminTab("clientes"));
+$("#admRefresh").addEventListener("click",()=>{
+  if($("#admClientes").style.display!=="none") loadClientes(); else loadAdmin();
+});
+
+async function loadClientes(){
+  const box=$("#admClientes"); box.innerHTML='<div class="empty">Cargando…</div>';
+  try{
+    const r=await fetch(API+"/api/admin/clientes",{headers:{"X-Admin-Password":ADMIN_PASS}});
+    if(!r.ok) throw new Error("Sesión expirada.");
+    const data=await r.json();
+    if(!data.clientes.length){ box.innerHTML='<div class="empty">Aún no hay clientes registrados.</div>'; return; }
+    box.innerHTML = `<p style="margin:14px 0 4px;color:var(--ink);opacity:.8;font-size:13.5px">👥 ${data.total} cliente(s) — ordenados por número de citas:</p>` +
+      data.clientes.map(cliCardHTML).join("");
+  }catch(e){ box.innerHTML='<div class="empty">'+e.message+'</div>'; }
+}
+function cliCardHTML(c){
+  const n=c.citas_count||0;
+  return `<div class="cli-card">
+    <div class="cli-count"><b>${n}</b><small>CITA${n===1?'':'S'}</small></div>
+    <div class="cli-info">
+      <h4>${c.nombre||'—'}</h4>
+      <div class="m">📞 ${c.telefono||'—'}${c.email?' · ✉️ '+c.email:''}</div>
+      ${c.ultimo_servicio?`<div class="m">Último: ${c.ultimo_servicio}</div>`:''}
+    </div>
+  </div>`;
+}
+
+async function loadAdmin(){
+  const list=$("#admList"); list.innerHTML='<div class="empty">Cargando…</div>';
+  try{
+    const r=await fetch(API+"/api/admin/appointments",{headers:{"X-Admin-Password":ADMIN_PASS}});
+    if(!r.ok) throw new Error("Sesión expirada.");
+    const data=await r.json();
+    if(!data.citas.length){ list.innerHTML='<div class="empty">Aún no hay solicitudes de cita.</div>'; return; }
+    list.innerHTML = data.citas.map(adminCardHTML).join("");
+    $$("#admList [data-accept]").forEach(b=>b.addEventListener("click",()=>decide(b.dataset.accept,"aceptada")));
+    $$("#admList [data-reject]").forEach(b=>b.addEventListener("click",()=>decide(b.dataset.reject,"rechazada")));
+  }catch(e){ list.innerHTML='<div class="empty">'+e.message+'</div>'; }
+}
+function adminCardHTML(c){
+  const acciones = c.estado==="pendiente"
+    ? `<button class="btn sm" style="background:linear-gradient(135deg,#4caf6e,#2e7d4b)" data-accept="${c.id}">✅ Aceptar</button>
+       <button class="btn sm" style="background:linear-gradient(135deg,#d9736f,#b5423e)" data-reject="${c.id}">❌ Rechazar</button>`
+    : `<button class="btn ghost sm" data-accept="${c.id}">Cambiar a aceptada</button>
+       <button class="btn ghost sm" data-reject="${c.id}">Cambiar a rechazada</button>`;
+  return `<div class="appt-card">
+    <div class="row">
+      <div><h4>${c.nombre}</h4><div class="meta">
+        📞 <b>${c.telefono}</b><br/>
+        📅 <b>${c.fecha}</b> · ${c.hora} a ${c.fin} <span style="color:var(--gold)">(${c.dur_txt||''})</span><br/>
+        💅 <b>${c.categoria}:</b> ${c.servicios.join(", ")}<br/>
+        📝 ${c.descripcion}<br/>
+        🔑 Código: ${c.code}
+      </div></div>
+      <span class="badge ${c.estado}">${estadoTxt(c.estado)}</span>
+    </div>
+    <div class="appt-actions">${acciones}</div>
+    <div class="msg" id="admres-${c.id}"></div>
+  </div>`;
+}
+async function decide(id, decision){
+  try{
+    const r=await fetch(API+"/api/admin/decision",{method:"POST",headers:{"Content-Type":"application/json","X-Admin-Password":ADMIN_PASS},body:JSON.stringify({id,decision})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.detail||"Error");
+    await loadAdmin();
+    const box=$("#admres-"+id);
+    if(box){
+      box.className="msg ok show";
+      box.innerHTML = `Marcada como <b>${data.cita.estado}</b>. `+
+        `<a href="${data.wa_cliente_link}" target="_blank" rel="noopener" style="color:#1f7a3d;font-weight:600;text-decoration:underline">📲 Avisar al cliente por WhatsApp</a>`;
+    }
+  }catch(e){ alert(e.message); }
+}
+
+/* ---------- helpers ---------- */
+function showErr(el,txt){ el.textContent=txt; el.className="msg err show"; }
+function closeOverlay(o){ o.classList.remove("show"); }
+$$("[data-close]").forEach(b=>b.addEventListener("click",e=>closeOverlay(e.target.closest(".overlay"))));
+$$(".overlay").forEach(o=>o.addEventListener("click",e=>{ if(e.target===o) closeOverlay(o); }));
+
+/* ---------- tema Día / Noche ---------- */
+function setTheme(t){
+  document.body.classList.toggle("night", t==="night");
+  try{ localStorage.setItem("jr_theme", t); }catch(e){}
+  $$(".theme-toggle button").forEach(b=>b.classList.toggle("on", b.dataset.theme===t));
+}
+$$(".theme-toggle button").forEach(b=>b.addEventListener("click",()=>setTheme(b.dataset.theme)));
+setTheme((()=>{ try{ return localStorage.getItem("jr_theme")||"day"; }catch(e){ return "day"; } })());
+
+/* destellos del jardín */
+(function sparkles(){
+  const hero=$("#hero"); if(!hero) return;
+  for(let i=0;i<7;i++){
+    const s=document.createElement("div"); s.className="spark";
+    const sz=2+Math.random()*3;
+    s.style.width=s.style.height=sz+"px";
+    s.style.left=(8+Math.random()*84)+"%";
+    s.style.top=(12+Math.random()*70)+"%";
+    s.style.animationDelay=(Math.random()*5)+"s";
+    hero.appendChild(s);
+  }
+})();
+
+boot();
+</script>
+</body>
+</html>

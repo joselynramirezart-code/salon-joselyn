@@ -1,0 +1,19 @@
+# Publicar en Render.com (plan gratis).
+# En Render: New + -> Blueprint -> conecta este repositorio.
+# Luego pega las variables marcadas sync:false en el panel de Render.
+services:
+  - type: web
+    name: salon-joselyn
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    envVars:
+      - key: ADMIN_EMAIL
+        sync: false          # tu correo principal para entrar al panel
+      - key: ADMIN_PASSWORD
+        sync: false          # tu contraseña del panel de administración
+      - key: CALLMEBOT_APIKEY
+        sync: false          # apikey de CallMeBot para que las citas lleguen a tu WhatsApp
+      - key: OWNER_WHATSAPP
+        value: "593969521836"

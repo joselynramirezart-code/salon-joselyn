@@ -392,8 +392,9 @@
       <button class="nav-item" data-sec="pestanas"><span class="ic">👁️</span> Pestañas</button>
       <div class="nav-lbl">Citas</div>
       <button class="nav-item" data-sec="citas"><span class="ic">🗓️</span> Agendar cita</button>
-      <button class="nav-item" data-sec="registro"><span class="ic">🧾</span> Registrarme</button>
       <button class="nav-item" data-sec="estado"><span class="ic">🔎</span> Ver estado</button>
+      <div class="nav-lbl">Mi cuenta</div>
+      <button class="nav-item" data-sec="cuenta"><span class="ic">🔑</span> Entrar / Registrarme</button>
     </nav>
     <div class="nav-foot">
       <a class="wa-btn" id="waFoot" href="#" target="_blank" rel="noopener">
@@ -479,14 +480,35 @@
         </div>
       </section>
 
-      <!-- ---- REGISTRARME ---- -->
-      <section class="section" id="sec-registro">
+      <!-- ---- MI CUENTA (login + registro + panel) ---- -->
+      <section class="section" id="sec-cuenta">
         <div class="sec-head">
-          <span class="kicker">Clientas</span>
-          <h2 class="g">Regístrate</h2>
-          <p>Regístrate para llevar tu historial y que Joselyn tenga tus datos. Así se cuenta cuántas veces has venido. 💕</p>
+          <span class="kicker" id="cuentaKicker">Mi cuenta</span>
+          <h2 class="g" id="cuentaTitle">Entrar</h2>
+          <p id="cuentaSub">Entra con tu cuenta o regístrate para agendar más rápido y llevar tu historial. 💕</p>
         </div>
-        <div class="center-narrow" style="margin-top:26px">
+
+        <!-- LOGIN -->
+        <div id="authLogin" class="center-narrow" style="margin-top:26px">
+          <div class="hero-card" style="text-align:left">
+            <div class="field">
+              <label>Correo <span class="req">*</span></label>
+              <input id="loginEmail" type="email" placeholder="tucorreo@gmail.com" autocomplete="email" />
+            </div>
+            <div class="field" style="margin-bottom:14px">
+              <label>Contraseña <span class="req">*</span></label>
+              <input id="loginPass" type="password" placeholder="Tu contraseña" />
+            </div>
+            <button class="btn" id="loginBtn">🔓 Entrar</button>
+            <div class="msg err" id="loginMsg"></div>
+            <p style="text-align:center;margin-top:16px;font-size:13.5px;color:var(--ink)">
+              ¿No tienes cuenta? <a id="toRegister" style="color:var(--rose-dk);font-weight:600;cursor:pointer">Regístrate aquí</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- REGISTRO -->
+        <div id="authRegister" class="center-narrow" style="margin-top:26px;display:none">
           <div class="hero-card" style="text-align:left">
             <div class="field">
               <label>Nombre y apellido <span class="req">*</span></label>
@@ -497,12 +519,45 @@
               <input id="rgTel" placeholder="Ej: 0991234567" inputmode="tel" autocomplete="tel" />
             </div>
             <div class="field">
-              <label>Correo <span class="hint">(opcional)</span></label>
+              <label>Correo <span class="req">*</span></label>
               <input id="rgEmail" type="email" placeholder="tucorreo@gmail.com" autocomplete="email" />
             </div>
-            <button class="btn" id="rgBtn">🧾 Registrarme</button>
+            <div class="field" style="margin-bottom:14px">
+              <label>Crea una contraseña <span class="req">*</span> <span class="hint">(mín. 6 caracteres)</span></label>
+              <input id="rgPass" type="password" placeholder="Tu nueva contraseña" />
+            </div>
+            <button class="btn" id="rgBtn">🧾 Crear mi cuenta</button>
             <div class="msg err" id="rgMsg"></div>
+            <p style="text-align:center;margin-top:16px;font-size:13.5px;color:var(--ink)">
+              ¿Ya tienes cuenta? <a id="toLogin" style="color:var(--rose-dk);font-weight:600;cursor:pointer">Entra aquí</a>
+            </p>
           </div>
+        </div>
+
+        <!-- PANEL CLIENTE -->
+        <div id="clientPanel" class="center-narrow" style="margin-top:26px;display:none">
+          <div class="hero-card" style="text-align:left">
+            <h3 style="font-size:27px;font-weight:700" id="cliHola">¡Hola!</h3>
+            <p id="cliResumen" style="color:var(--ink);margin:8px 0 18px"></p>
+            <div class="btn-row" style="flex-wrap:wrap">
+              <button class="btn sm" id="cliAgendar">🗓️ Agendar cita</button>
+              <button class="btn ghost sm" id="cliEstado">🔎 Ver mis citas</button>
+              <button class="btn ghost sm" id="cliLogout">Salir</button>
+            </div>
+            <div id="cliCitas" style="margin-top:6px"></div>
+          </div>
+        </div>
+
+        <!-- PANEL ADMIN (solo cuando entra Joselyn) -->
+        <div id="adminPanel" style="display:none">
+          <div class="btn-row" style="margin-top:20px;flex-wrap:wrap">
+            <button class="btn sm" id="tabSolic">📋 Solicitudes</button>
+            <button class="btn ghost sm" id="tabClientes">👥 Clientes</button>
+            <button class="btn ghost sm" id="admRefresh">↻ Actualizar</button>
+            <button class="btn ghost sm" id="admLogout">Salir</button>
+          </div>
+          <div id="admList"></div>
+          <div id="admClientes" style="display:none"></div>
         </div>
       </section>
 
@@ -525,41 +580,6 @@
           <button class="btn" id="stBtn">🔎 Consultar estado</button>
           <div class="msg err" id="stMsg"></div>
           <div id="stResults"></div>
-        </div>
-      </section>
-
-      <!-- ---- ADMIN ---- -->
-      <section class="section" id="sec-admin">
-        <div class="sec-head">
-          <span class="kicker">Solo Joselyn</span>
-          <h2 class="g">Administración</h2>
-          <p>Aquí ves todas las solicitudes de cita y las aceptas o rechazas. Al decidir, puedes avisar al cliente por WhatsApp con un clic.</p>
-        </div>
-
-        <div id="adminLogin" class="center-narrow" style="margin-top:26px">
-          <div class="hero-card" style="text-align:left">
-            <div class="field">
-              <label>Correo <span class="req">*</span></label>
-              <input id="admEmail" type="email" placeholder="tu correo principal" autocomplete="email" />
-            </div>
-            <div class="field" style="margin-bottom:14px">
-              <label>Contraseña <span class="req">*</span></label>
-              <input id="admPass" type="password" placeholder="Tu contraseña" />
-            </div>
-            <button class="btn" id="admLoginBtn">🔓 Entrar al panel</button>
-            <div class="msg err" id="admMsg"></div>
-          </div>
-        </div>
-
-        <div id="adminPanel" style="display:none">
-          <div class="btn-row" style="margin-top:20px;flex-wrap:wrap">
-            <button class="btn sm" id="tabSolic">📋 Solicitudes</button>
-            <button class="btn ghost sm" id="tabClientes">👥 Clientes</button>
-            <button class="btn ghost sm" id="admRefresh">↻ Actualizar</button>
-            <button class="btn ghost sm" id="admLogout">Salir</button>
-          </div>
-          <div id="admList"></div>
-          <div id="admClientes" style="display:none"></div>
         </div>
       </section>
 
@@ -738,8 +758,8 @@ function showSection(sec){
 }
 $$(".nav-item").forEach(n=>n.addEventListener("click",()=>showSection(n.dataset.sec)));
 
-/* Acceso privado al panel de admin (oculto del menú): joselynramirez.com/#admin */
-function checkAdminHash(){ if(location.hash.toLowerCase()==="#admin") showSection("admin"); }
+/* Atajo directo al login (para tu marcador): joselynramirez.com/#admin */
+function checkAdminHash(){ if(location.hash.toLowerCase()==="#admin") showSection("cuenta"); }
 window.addEventListener("hashchange", checkAdminHash);
 checkAdminHash();
 
@@ -897,39 +917,96 @@ function apptCardHTML(c){
   </div>`;
 }
 
-/* ---------- registro de cliente ---------- */
-$("#rgBtn").addEventListener("click", async ()=>{
-  const msg=$("#rgMsg"); msg.classList.remove("show");
-  const nombre=$("#rgNombre").value.trim(), telefono=$("#rgTel").value.trim(), email=$("#rgEmail").value.trim();
-  if(nombre.split(" ").filter(Boolean).length<2) return showErr(msg,"Escribe tu nombre y apellido.");
-  if(telefono.replace(/\D/g,"").length<7) return showErr(msg,"Escribe un teléfono válido.");
-  const btn=$("#rgBtn"); btn.disabled=true; btn.textContent="Registrando…";
+/* ---------- Mi cuenta: login + registro + paneles ---------- */
+let CURRENT_CLIENT = null;
+
+function showAuthView(view){ // 'login' | 'register'
+  $("#authLogin").style.display = view==="login"?"":"none";
+  $("#authRegister").style.display = view==="register"?"":"none";
+  $("#clientPanel").style.display="none"; $("#adminPanel").style.display="none";
+  $("#cuentaTitle").textContent = view==="register" ? "Regístrate" : "Entrar";
+  $("#cuentaSub").style.display="";
+  $("#loginMsg").classList.remove("show"); $("#rgMsg").classList.remove("show");
+}
+$("#toRegister").addEventListener("click",()=>showAuthView("register"));
+$("#toLogin").addEventListener("click",()=>showAuthView("login"));
+
+function showClientPanel(cli){
+  CURRENT_CLIENT = cli;
+  $("#authLogin").style.display="none"; $("#authRegister").style.display="none";
+  $("#adminPanel").style.display="none"; $("#clientPanel").style.display="";
+  $("#cuentaTitle").textContent="Mi cuenta"; $("#cuentaSub").style.display="none";
+  $("#cliHola").textContent = "¡Hola, "+(cli.nombre.split(" ")[0])+"! 💕";
+  const n = cli.citas_count||0;
+  $("#cliResumen").innerHTML = n>0
+    ? `Has agendado <b>${n}</b> cita${n>1?'s':''} con nosotras. ¡Gracias por tu preferencia!`
+    : "Aún no tienes citas registradas. ¡Agenda la primera cuando quieras!";
+  $("#cliCitas").innerHTML="";
+}
+
+function showAdminPanel(){
+  $("#authLogin").style.display="none"; $("#authRegister").style.display="none";
+  $("#clientPanel").style.display="none"; $("#adminPanel").style.display="";
+  $("#cuentaTitle").textContent="Administración"; $("#cuentaSub").style.display="none";
+  showAdminTab("solic");
+}
+
+/* Entrar (login unificado) */
+$("#loginBtn").addEventListener("click", async ()=>{
+  const msg=$("#loginMsg"); msg.classList.remove("show");
+  const email=$("#loginEmail").value.trim(); const pass=$("#loginPass").value;
+  if(!email) return showErr(msg,"Escribe tu correo.");
+  if(!pass) return showErr(msg,"Escribe tu contraseña.");
+  const btn=$("#loginBtn"); btn.disabled=true; btn.textContent="Entrando…";
   try{
-    const r=await fetch(API+"/api/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nombre,telefono,email})});
+    const r=await fetch(API+"/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password:pass})});
     const d=await r.json();
-    if(!r.ok) throw new Error(d.detail||"No se pudo registrar.");
-    msg.className="msg ok show";
-    msg.innerHTML = `✅ ¡Registro exitoso, ${d.cliente.nombre.split(" ")[0]}! Ya puedes agendar tus citas.`;
-    $("#rgNombre").value=""; $("#rgTel").value=""; $("#rgEmail").value="";
+    if(!r.ok) throw new Error(d.detail||"Correo o contraseña incorrectos.");
+    if(d.role==="admin"){ ADMIN_PASS=pass; $("#loginPass").value=""; showAdminPanel(); }
+    else { $("#loginPass").value=""; showClientPanel(d.cliente); }
   }catch(e){ showErr(msg,e.message); }
-  finally{ btn.disabled=false; btn.textContent="🧾 Registrarme"; }
+  finally{ btn.disabled=false; btn.textContent="🔓 Entrar"; }
 });
 
-/* ---------- admin ---------- */
-$("#admLoginBtn").addEventListener("click", async ()=>{
-  const msg=$("#admMsg"); msg.classList.remove("show");
-  const email=$("#admEmail").value.trim(); const pass=$("#admPass").value.trim();
-  if(!email) return showErr(msg,"Escribe tu correo.");
-  if(!pass) return showErr(msg,"Escribe la contraseña.");
+/* Crear cuenta (registro con contraseña → entra directo) */
+$("#rgBtn").addEventListener("click", async ()=>{
+  const msg=$("#rgMsg"); msg.classList.remove("show");
+  const nombre=$("#rgNombre").value.trim(), telefono=$("#rgTel").value.trim(),
+        email=$("#rgEmail").value.trim(), password=$("#rgPass").value;
+  if(nombre.split(" ").filter(Boolean).length<2) return showErr(msg,"Escribe tu nombre y apellido.");
+  if(telefono.replace(/\D/g,"").length<7) return showErr(msg,"Escribe un teléfono válido.");
+  if(!email.includes("@")) return showErr(msg,"Escribe un correo válido.");
+  if(password.length<6) return showErr(msg,"La contraseña debe tener al menos 6 caracteres.");
+  const btn=$("#rgBtn"); btn.disabled=true; btn.textContent="Creando…";
   try{
-    const r=await fetch(API+"/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password:pass})});
-    if(!r.ok){ const d=await r.json(); throw new Error(d.detail||"Correo o contraseña incorrectos."); }
-    ADMIN_PASS=pass;
-    $("#adminLogin").style.display="none"; $("#adminPanel").style.display="";
-    showAdminTab("solic");
+    const r=await fetch(API+"/api/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nombre,telefono,email,password})});
+    const d=await r.json();
+    if(!r.ok) throw new Error(d.detail||"No se pudo registrar.");
+    $("#rgNombre").value=""; $("#rgTel").value=""; $("#rgEmail").value=""; $("#rgPass").value="";
+    showClientPanel(d.cliente);
   }catch(e){ showErr(msg,e.message); }
+  finally{ btn.disabled=false; btn.textContent="🧾 Crear mi cuenta"; }
 });
-$("#admLogout").addEventListener("click",()=>{ ADMIN_PASS=""; $("#adminPanel").style.display="none"; $("#adminLogin").style.display=""; $("#admPass").value=""; });
+
+/* Botones del panel de cliente */
+$("#cliAgendar").addEventListener("click",()=>{
+  openBooking(null);
+  if(CURRENT_CLIENT){ $("#bkNombre").value=CURRENT_CLIENT.nombre||""; $("#bkTel").value=CURRENT_CLIENT.telefono||""; }
+});
+$("#cliEstado").addEventListener("click", async ()=>{
+  if(!CURRENT_CLIENT) return;
+  const box=$("#cliCitas"); box.innerHTML='<div class="empty">Cargando…</div>';
+  try{
+    const r=await fetch(API+"/api/status?phone="+encodeURIComponent(CURRENT_CLIENT.telefono));
+    const d=await r.json();
+    if(!r.ok){ box.innerHTML='<div class="empty">Aún no tienes citas registradas.</div>'; return; }
+    box.innerHTML = d.citas.map(apptCardHTML).join("");
+  }catch(e){ box.innerHTML='<div class="empty">No se pudo cargar.</div>'; }
+});
+$("#cliLogout").addEventListener("click",()=>{ CURRENT_CLIENT=null; $("#loginEmail").value=""; $("#loginPass").value=""; showAuthView("login"); });
+
+/* Salir del admin */
+$("#admLogout").addEventListener("click",()=>{ ADMIN_PASS=""; $("#loginEmail").value=""; $("#loginPass").value=""; showAuthView("login"); });
 
 /* pestañas del panel */
 function showAdminTab(tab){

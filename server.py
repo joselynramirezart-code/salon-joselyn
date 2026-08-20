@@ -19,6 +19,7 @@ Arranque local:
 En un hosting (Render) se usa la variable PORT automáticamente.
 """
 
+import hashlib
 import json
 import os
 import re
@@ -143,6 +144,30 @@ def _save_clients(data: list) -> None:
 
 def _phone_key(telefono: str) -> str:
     return re.sub(r"\D", "", telefono or "")
+
+
+def _hash_pw(password: str, salt: str | None = None) -> str:
+    salt = salt or secrets.token_hex(8)
+    h = hashlib.sha256((salt + password).encode("utf-8")).hexdigest()
+    return f"{salt}${h}"
+
+
+def _verify_pw(password: str, stored: str) -> bool:
+    try:
+        salt, h = (stored or "").split("$", 1)
+    except ValueError:
+        return False
+    return hashlib.sha256((salt + password).encode("utf-8")).hexdigest() == h
+
+
+def _client_public(cli: dict) -> dict:
+    return {
+        "nombre": cli.get("nombre", ""),
+        "email": cli.get("email", ""),
+        "telefono": cli.get("telefono", ""),
+        "citas_count": int(cli.get("citas_count", 0)),
+        "ultimo_servicio": cli.get("ultimo_servicio", ""),
+    }
 
 
 def _upsert_client(nombre: str, telefono: str, email: str = "", cuenta_cita: bool = False,
@@ -313,16 +338,64 @@ def services():
 
 @app.post("/api/register")
 def register(payload: dict = Body(...)):
-    """Registro de cliente para llevar su historial de citas."""
+    """Crea una cuenta de cliente (con contraseña) para entrar y ver su historial."""
     nombre = str(payload.get("nombre", "")).strip()
     telefono = str(payload.get("telefono", "")).strip()
     email = str(payload.get("email", "")).strip()
+    password = str(payload.get("password", ""))
     if len(nombre.split()) < 2:
         raise HTTPException(status_code=400, detail="Escribe tu nombre y apellido.")
     if len(_phone_key(telefono)) < 7:
         raise HTTPException(status_code=400, detail="Escribe un teléfono válido.")
-    cli = _upsert_client(nombre, telefono, email)
-    return {"ok": True, "cliente": {"nombre": cli.get("nombre"), "citas_count": cli.get("citas_count", 0)}}
+    if "@" not in email or "." not in email:
+        raise HTTPException(status_code=400, detail="Escribe un correo válido.")
+    if len(password) < 6:
+        raise HTTPException(status_code=400, detail="La contraseña debe tener al menos 6 caracteres.")
+
+    email_l = email.lower()
+    if email_l == ADMIN_EMAIL:
+        raise HTTPException(status_code=409, detail="Ese correo no está disponible.")
+
+    clients = _load_clients()
+    if any((c.get("email", "").lower() == email_l and c.get("password_hash")) for c in clients):
+        raise HTTPException(status_code=409, detail="Ese correo ya está registrado. Inicia sesión.")
+
+    key = _phone_key(telefono)
+    cli = next((c for c in clients if c.get("telefono_key") == key), None)
+    if cli is None:
+        cli = {
+            "telefono_key": key, "nombre": nombre, "telefono": telefono,
+            "email": email, "citas_count": 0, "ultimo_servicio": "",
+            "creado": _now_iso(), "ultima_cita": None,
+        }
+        clients.append(cli)
+    cli["nombre"] = nombre
+    cli["email"] = email
+    cli["password_hash"] = _hash_pw(password)
+    _save_clients(clients)
+    return {"ok": True, "role": "client", "cliente": _client_public(cli)}
+
+
+@app.post("/api/login")
+def login(payload: dict = Body(...)):
+    """Login unificado: la dueña entra como admin; las clientas a su cuenta."""
+    email = str(payload.get("email", "")).strip().lower()
+    password = str(payload.get("password", ""))
+    if not email or not password:
+        raise HTTPException(status_code=400, detail="Escribe tu correo y contraseña.")
+
+    # La dueña (admin)
+    if email == ADMIN_EMAIL and password == ADMIN_PASSWORD:
+        return {"ok": True, "role": "admin"}
+
+    # Cliente registrado
+    clients = _load_clients()
+    cli = next((c for c in clients
+                if c.get("email", "").strip().lower() == email and c.get("password_hash")), None)
+    if cli and _verify_pw(password, cli["password_hash"]):
+        return {"ok": True, "role": "client", "cliente": _client_public(cli)}
+
+    raise HTTPException(status_code=401, detail="Correo o contraseña incorrectos.")
 
 
 # --------------------------------------------------------------------------- #
@@ -492,7 +565,12 @@ def admin_clientes(x_admin_password: str | None = Header(default=None)):
     """Registro de clientes con cuántas veces han agendado (solo admin)."""
     _check_admin(x_admin_password)
     clients = sorted(_load_clients(), key=lambda c: int(c.get("citas_count", 0)), reverse=True)
-    return {"clientes": clients, "total": len(clients)}
+    safe = []
+    for c in clients:
+        item = {k: v for k, v in c.items() if k != "password_hash"}
+        item["registrado"] = bool(c.get("password_hash"))  # True = tiene cuenta con contraseña
+        safe.append(item)
+    return {"clientes": safe, "total": len(safe)}
 
 
 @app.get("/api/admin/appointments")

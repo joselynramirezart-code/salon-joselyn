@@ -24,6 +24,8 @@ import json
 import os
 import re
 import secrets
+import threading
+import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -385,6 +387,11 @@ def config():
     }
 
 
+@app.get("/api/health")
+def health():
+    return {"ok": True}
+
+
 @app.get("/api/services")
 def services():
     return {"services": SERVICES}
@@ -706,6 +713,28 @@ def admin_decision(payload: dict = Body(...), x_admin_password: str | None = Hea
         "cita": _public(target),
         "wa_cliente_link": wa_link(re.sub(r"\D", "", target["telefono"]), msg),
     }
+
+
+# --------------------------------------------------------------------------- #
+# Mantener la web siempre despierta (auto-ping) — evita que Render la "duerma".
+# La app se visita a sí misma cada 10 min usando la URL pública que da Render.
+# --------------------------------------------------------------------------- #
+def _keepalive_loop(url: str) -> None:
+    ping = url.rstrip("/") + "/api/health"
+    while True:
+        time.sleep(600)  # 10 minutos (Render duerme a los 15 sin visitas)
+        try:
+            urllib.request.urlopen(ping, timeout=20).read()
+        except Exception:  # noqa: BLE001
+            pass
+
+
+@app.on_event("startup")
+def _start_keepalive() -> None:
+    url = os.getenv("RENDER_EXTERNAL_URL", "").strip()
+    if url:
+        threading.Thread(target=_keepalive_loop, args=(url,), daemon=True).start()
+        print(f"[keepalive] auto-ping activo -> {url}/api/health cada 10 min", flush=True)
 
 
 if __name__ == "__main__":

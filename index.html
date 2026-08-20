@@ -793,6 +793,13 @@ function showSection(sec){
 }
 $$(".nav-item").forEach(n=>n.addEventListener("click",()=>showSection(n.dataset.sec)));
 
+/* Tocar el logo JR = volver al inicio */
+$$(".brand .logo, .tb-logo").forEach(el=>{
+  el.style.cursor="pointer";
+  el.setAttribute("title","Volver al inicio");
+  el.addEventListener("click",()=>showSection("unas"));
+});
+
 /* Atajo directo al login (para tu marcador): joselynramirez.com/#admin */
 function checkAdminHash(){ if(location.hash.toLowerCase()==="#admin") showSection("cuenta"); }
 window.addEventListener("hashchange", checkAdminHash);

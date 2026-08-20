@@ -53,6 +53,12 @@ ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "joselynramirez.art@gmail.com").strip().l
 # Contraseña del panel de administración (¡cámbiala en producción!).
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "joselyn2026").strip()
 
+# Login con Google (Gmail). Pega aquí el Client ID de Google (OAuth Web).
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "").strip()
+
+# Tokens de sesión de admin (cuando la dueña entra con su Gmail). En memoria.
+ADMIN_TOKENS: set[str] = set()
+
 # CallMeBot: para que la cita llegue SOLA a tu WhatsApp.
 # Configúralo una vez (ver README) y pega tu apikey en esta variable.
 CALLMEBOT_APIKEY = os.getenv("CALLMEBOT_APIKEY", "").strip()
@@ -170,27 +176,44 @@ def _client_public(cli: dict) -> dict:
     }
 
 
-def _upsert_client(nombre: str, telefono: str, email: str = "", cuenta_cita: bool = False,
-                   servicios=None) -> dict:
-    """Crea o actualiza un cliente (identificado por su teléfono). Si cuenta_cita,
-    suma +1 a su total de citas y guarda los últimos servicios."""
+def _find_client(clients: list, email: str = "", telefono: str = "") -> dict | None:
+    """Busca un cliente por correo (prioritario) o por teléfono."""
+    email_l = (email or "").strip().lower()
+    if email_l:
+        for c in clients:
+            if c.get("email", "").strip().lower() == email_l:
+                return c
     key = _phone_key(telefono)
-    if not key:
+    if key:
+        for c in clients:
+            if c.get("telefono_key") == key:
+                return c
+    return None
+
+
+def _upsert_client(nombre: str, telefono: str = "", email: str = "", cuenta_cita: bool = False,
+                   servicios=None, google: bool = False) -> dict:
+    """Crea o actualiza un cliente (por correo o teléfono). Si cuenta_cita, suma +1."""
+    if not _phone_key(telefono) and not (email or "").strip():
         return {}
     clients = _load_clients()
-    cli = next((c for c in clients if c.get("telefono_key") == key), None)
+    cli = _find_client(clients, email=email, telefono=telefono)
     if cli is None:
         cli = {
-            "telefono_key": key, "nombre": nombre, "telefono": telefono,
+            "telefono_key": _phone_key(telefono), "nombre": nombre, "telefono": telefono,
             "email": (email or "").strip(), "citas_count": 0,
             "ultimo_servicio": "", "creado": _now_iso(), "ultima_cita": None,
         }
         clients.append(cli)
-    # Actualiza datos recientes.
     if nombre:
         cli["nombre"] = nombre
     if email:
         cli["email"] = email.strip()
+    if telefono and not cli.get("telefono"):
+        cli["telefono"] = telefono
+        cli["telefono_key"] = _phone_key(telefono)
+    if google:
+        cli["google"] = True
     if cuenta_cita:
         cli["citas_count"] = int(cli.get("citas_count", 0)) + 1
         cli["ultima_cita"] = _now_iso()
@@ -254,9 +277,35 @@ def _is_weekday(fecha: str) -> bool:
     return d.weekday() < 5  # 0=lunes ... 4=viernes
 
 
-def _check_admin(password: str | None) -> None:
-    if not password or password != ADMIN_PASSWORD:
-        raise HTTPException(status_code=401, detail="Contraseña de administrador incorrecta.")
+def _check_admin(value: str | None) -> None:
+    """Acepta la contraseña de admin O un token de sesión de admin (login Google)."""
+    if value and (value == ADMIN_PASSWORD or value in ADMIN_TOKENS):
+        return
+    raise HTTPException(status_code=401, detail="No autorizado.")
+
+
+def _issue_admin_token() -> str:
+    t = secrets.token_hex(24)
+    ADMIN_TOKENS.add(t)
+    return t
+
+
+def _verify_google(credential: str) -> dict | None:
+    """Verifica el ID token de Google (firma + expiración) vía tokeninfo."""
+    if not GOOGLE_CLIENT_ID or not credential:
+        return None
+    try:
+        url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + urllib.parse.quote(credential)
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        print(f"[google] no se pudo verificar: {exc}", flush=True)
+        return None
+    if data.get("aud") != GOOGLE_CLIENT_ID:
+        return None
+    if str(data.get("email_verified", "")).lower() not in ("true", "1"):
+        return None
+    return {"email": str(data.get("email", "")).lower(), "name": str(data.get("name", ""))}
 
 
 # --------------------------------------------------------------------------- #
@@ -326,6 +375,7 @@ def config():
     return {
         "owner_whatsapp": OWNER_WHATSAPP,
         "owner_email": ADMIN_EMAIL,
+        "google_client_id": GOOGLE_CLIENT_ID,
         "horario": {"open": OPEN_HOUR, "close": CLOSE_HOUR, "dias": "Lunes a viernes"},
         "step_min": STEP_MIN,
     }
@@ -398,6 +448,27 @@ def login(payload: dict = Body(...)):
     raise HTTPException(status_code=401, detail="Correo o contraseña incorrectos.")
 
 
+@app.post("/api/google-login")
+def google_login(payload: dict = Body(...)):
+    """Entrar/registrarse con Google (Gmail). La dueña entra como admin automáticamente."""
+    if not GOOGLE_CLIENT_ID:
+        raise HTTPException(status_code=400, detail="El acceso con Google no está disponible aún.")
+    info = _verify_google(str(payload.get("credential", "")).strip())
+    if not info or not info.get("email"):
+        raise HTTPException(status_code=401, detail="No se pudo verificar tu cuenta de Google.")
+
+    email = info["email"]
+    nombre = info.get("name") or email.split("@")[0]
+
+    # La dueña: entra como admin con un token de sesión.
+    if email == ADMIN_EMAIL:
+        return {"ok": True, "role": "admin", "admin_token": _issue_admin_token()}
+
+    # Cliente: se crea/actualiza su cuenta con Google (sin contraseña).
+    cli = _upsert_client(nombre, email=email, google=True)
+    return {"ok": True, "role": "client", "cliente": _client_public(cli)}
+
+
 # --------------------------------------------------------------------------- #
 # Disponibilidad de horarios
 # --------------------------------------------------------------------------- #
@@ -439,6 +510,7 @@ def create_appointment(payload: dict = Body(...)):
     servicios = payload.get("servicios", [])
     fecha = str(payload.get("fecha", "")).strip()
     hora = str(payload.get("hora", "")).strip()
+    email = str(payload.get("email", "")).strip()  # opcional: correo del cliente logueado
 
     # Validaciones obligatorias
     if len(nombre) < 3 or " " not in nombre:
@@ -481,6 +553,7 @@ def create_appointment(payload: dict = Body(...)):
         "code": secrets.token_hex(3).upper(),  # 6 caracteres
         "nombre": nombre,
         "telefono": telefono,
+        "email": email,
         "descripcion": descripcion,
         "servicios": servicios,
         "categoria": ", ".join(sorted({SERVICES_BY_ID[s]["cat"] for s in servicios})),
@@ -496,7 +569,7 @@ def create_appointment(payload: dict = Body(...)):
     _save(citas)
 
     # Registra al cliente y suma +1 a su historial de citas.
-    _upsert_client(nombre, telefono, cuenta_cita=True, servicios=servicios)
+    _upsert_client(nombre, telefono, email=email, cuenta_cita=True, servicios=servicios)
 
     enviado = send_whatsapp_to_owner(appt)
 
@@ -533,15 +606,18 @@ def _public(appt: dict) -> dict:
 # Consulta de estado (cliente)
 # --------------------------------------------------------------------------- #
 @app.get("/api/status")
-def status(code: str = "", phone: str = ""):
+def status(code: str = "", phone: str = "", email: str = ""):
     code = (code or "").strip().upper()
     phone_digits = re.sub(r"\D", "", phone or "")
+    email_l = (email or "").strip().lower()
     citas = _load()
     encontrados = []
     for c in citas:
         if code and c["code"] == code:
             encontrados.append(_public(c))
         elif phone_digits and re.sub(r"\D", "", c["telefono"]) == phone_digits:
+            encontrados.append(_public(c))
+        elif email_l and c.get("email", "").strip().lower() == email_l:
             encontrados.append(_public(c))
     if not encontrados:
         raise HTTPException(status_code=404, detail="No encontramos ninguna solicitud con esos datos.")

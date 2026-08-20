@@ -201,6 +201,8 @@
   .dur-info{margin-top:12px;padding:11px 14px;border-radius:13px;background:var(--blush);border:1px solid rgba(224,114,154,.28);
     font-size:13px;color:var(--rose-dk);font-weight:600;display:flex;align-items:center;gap:8px}
   .dur-info span{color:var(--ink);font-weight:400;opacity:.85}
+  .or-divider{display:flex;align-items:center;gap:12px;margin:18px 0 4px;color:var(--ink);opacity:.6;font-size:12.5px}
+  .or-divider::before,.or-divider::after{content:"";flex:1;height:1px;background:var(--line)}
 
   .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:9px;margin-top:2px}
   .slot{padding:12px 8px;border:1.5px solid var(--line);border-radius:14px;text-align:center;font-size:13.5px;font-weight:600;
@@ -488,6 +490,12 @@
           <p id="cuentaSub">Entra con tu cuenta o regístrate para agendar más rápido y llevar tu historial. 💕</p>
         </div>
 
+        <!-- ENTRAR CON GOOGLE -->
+        <div id="googleAuth" class="center-narrow" style="margin-top:24px;display:none">
+          <div style="display:flex;justify-content:center"><div id="gsiBtn"></div></div>
+          <div class="or-divider"><span>o con tu correo</span></div>
+        </div>
+
         <!-- LOGIN -->
         <div id="authLogin" class="center-narrow" style="margin-top:26px">
           <div class="hero-card" style="text-align:left">
@@ -729,8 +737,35 @@ async function boot(){
   if(email){ $("#footMail").href = "mailto:"+email; $("#footMailText").textContent = email; }
   else { $("#footMail").style.display="none"; }
   $("#footYear").textContent = new Date().getFullYear();
+  initGoogle();
 }
 function svcByCat(cat){ return SERVICES.filter(s=>s.cat===cat); }
+
+/* ---------- Entrar con Google (Gmail) ---------- */
+function initGoogle(){
+  const cid = CONFIG.google_client_id;
+  if(!cid) return;
+  $("#googleAuth").style.display="";
+  const s=document.createElement("script");
+  s.src="https://accounts.google.com/gsi/client"; s.async=true; s.defer=true;
+  s.onload=()=>{
+    if(!(window.google && google.accounts && google.accounts.id)) return;
+    google.accounts.id.initialize({ client_id:cid, callback:onGoogleCredential, auto_select:true });
+    const el=$("#gsiBtn");
+    if(el) google.accounts.id.renderButton(el,{theme:"outline",size:"large",shape:"pill",text:"continue_with",width:280});
+  };
+  document.head.appendChild(s);
+}
+async function onGoogleCredential(resp){
+  try{
+    const r=await fetch(API+"/api/google-login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({credential:resp.credential})});
+    const d=await r.json();
+    if(!r.ok) throw new Error(d.detail||"No se pudo entrar con Google.");
+    showSection("cuenta");
+    if(d.role==="admin"){ ADMIN_PASS=d.admin_token; showAdminPanel(); }
+    else { showClientPanel(d.cliente); }
+  }catch(e){ const m=$("#loginMsg"); if(m){ m.textContent=e.message; m.className="msg err show"; } }
+}
 
 function cardHTML(s){
   return `<div class="card" data-svc="${s.id}">
@@ -860,6 +895,7 @@ $("#bkSubmit").addEventListener("click", async ()=>{
     servicios:Array.from(selectedServices),
     fecha:$("#bkFecha").value,
     hora:selectedSlot,
+    email:(CURRENT_CLIENT && CURRENT_CLIENT.email) || "",
   };
   if(payload.nombre.split(" ").filter(Boolean).length<2){ return showErr(msg,"Escribe tu nombre y apellido."); }
   if(payload.telefono.replace(/\D/g,"").length<7){ return showErr(msg,"Escribe un teléfono válido."); }
@@ -996,8 +1032,11 @@ $("#cliAgendar").addEventListener("click",()=>{
 $("#cliEstado").addEventListener("click", async ()=>{
   if(!CURRENT_CLIENT) return;
   const box=$("#cliCitas"); box.innerHTML='<div class="empty">Cargando…</div>';
+  const q = new URLSearchParams();
+  if(CURRENT_CLIENT.email) q.set("email", CURRENT_CLIENT.email);
+  if(CURRENT_CLIENT.telefono) q.set("phone", CURRENT_CLIENT.telefono);
   try{
-    const r=await fetch(API+"/api/status?phone="+encodeURIComponent(CURRENT_CLIENT.telefono));
+    const r=await fetch(API+"/api/status?"+q.toString());
     const d=await r.json();
     if(!r.ok){ box.innerHTML='<div class="empty">Aún no tienes citas registradas.</div>'; return; }
     box.innerHTML = d.citas.map(apptCardHTML).join("");

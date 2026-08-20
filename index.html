@@ -394,8 +394,6 @@
       <button class="nav-item" data-sec="citas"><span class="ic">🗓️</span> Agendar cita</button>
       <button class="nav-item" data-sec="registro"><span class="ic">🧾</span> Registrarme</button>
       <button class="nav-item" data-sec="estado"><span class="ic">🔎</span> Ver estado</button>
-      <div class="nav-lbl">Privado</div>
-      <button class="nav-item" data-sec="admin"><span class="ic">🔐</span> Administración</button>
     </nav>
     <div class="nav-foot">
       <a class="wa-btn" id="waFoot" href="#" target="_blank" rel="noopener">
@@ -739,6 +737,11 @@ function showSection(sec){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 $$(".nav-item").forEach(n=>n.addEventListener("click",()=>showSection(n.dataset.sec)));
+
+/* Acceso privado al panel de admin (oculto del menú): joselynramirez.com/#admin */
+function checkAdminHash(){ if(location.hash.toLowerCase()==="#admin") showSection("admin"); }
+window.addEventListener("hashchange", checkAdminHash);
+checkAdminHash();
 
 /* sidebar móvil */
 function openSidebar(){ $("#sidebar").classList.add("open"); $("#scrim").classList.add("show"); }
